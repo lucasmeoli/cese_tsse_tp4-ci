@@ -114,7 +114,7 @@ void test_check_status_led_is_on(void) {
 /** @test Check the status of a LED that is off. */
 void test_check_status_led_is_off(void) {
     LedsTurnOnSingle(4);
-    LedsTurnOffSingle(4);
+    LedsTurnOffSingle(5);
 
     TEST_ASSERT_FALSE(LedsIsTurnedOn(4));
 }
