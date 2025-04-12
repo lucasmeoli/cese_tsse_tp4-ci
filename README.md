@@ -1,6 +1,6 @@
 # CESE - TP4 - CI
 Este repositorio contiene el Trabajo Práctico 4 de la materia Testing de
-Software Embebido de la carrera de Especialización en Sistemas Embebidos (CESE) 
+Software Embebido de la carrera de Especialización en Sistemas Embebidos (CESE)
 de la Universidad de Buenos Aires.
 
 ## Desarrollo
