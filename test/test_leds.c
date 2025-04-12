@@ -1,5 +1,5 @@
 /************************************************************************************************
-Copyright (c) 2025, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright (c) 2025, Lucas Meoli <meolilucas@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,10 +20,14 @@ SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
 /** @file test_leds.c
- ** @brief Pruebas unitarias de la biblioteca para el control de LEDs
+ ** @brief Unit tests for the LED control library
  **/
 
 /**
+ * @test Con la inicialización todos los LEDs quedan apagados.
+ * @test Prender un LED individual.
+ * @test Apagar un LED individual.
+ * @test Prender y apagar múltiples LED’s.
  * @test Prender todos los LEDs de una vez.
  * @test Apagar todos los LEDs de una vez.
  * @test Consultar el estado de un LED que está encendido
@@ -43,7 +47,7 @@ SPDX-License-Identifier: MIT
 
 /* === Private variable declarations =========================================================== */
 
-static uint16_t leds_virtuales = 0xFFFF;
+static uint16_t virtual_leds = 0xFFFF;
 
 /* === Private function declarations =========================================================== */
 
@@ -54,41 +58,65 @@ static uint16_t leds_virtuales = 0xFFFF;
 /* === Private function implementation ========================================================= */
 
 /* === Public function implementation ========================================================== */
-
 void setUp(void) {
-    LedsInit(&leds_virtuales);
+    LedsInit(&virtual_leds);
 }
 
-//! @test Con la inicialización todos los LEDs quedan apagados
-void test_todos_los_leds_inician_apagados(void) {
-    uint16_t leds_virtuales = 0xFFFF;
+/** @test With initialization, all LEDs are off. */
+void test_all_leds_start_off(void) {
+    uint16_t leds_virtualss = 0xFFFF;
 
-    LedsInit(&leds_virtuales);
-    TEST_ASSERT_EQUAL_HEX16(0x0000, leds_virtuales);
+    LedsInit(&virtual_leds);
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtual_leds);
 }
 
-//! @test Prender un LED individual
-void test_prender_led_individual(void) {
+/** @test Turn on an individual LED. */
+void test_turn_on_single_led(void) {
     LedsTurnOnSingle(4);
-    TEST_ASSERT_EQUAL_HEX16(0x0008, leds_virtuales);
+    TEST_ASSERT_EQUAL_HEX16(0x0008, virtual_leds);
 }
 
-//! @test Apagar un LED individual.
-void test_apagar_led_individual(void) {
+/** @test Turn off an individual LED. */
+void test_turn_off_single_led(void) {
     LedsTurnOnSingle(4);
     LedsTurnOffSingle(4);
-    TEST_ASSERT_EQUAL_HEX16(0x0000, leds_virtuales);
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtual_leds);
 }
 
-//! @test Prender y apagar múltiples LED’s.
-void test_prender_y_apagar_algunos_leds(void) {
+/** @test Turn on and turn off multiple LEDs. */
+void test_turn_on_and_off_multiple_leds(void) {
     LedsTurnOnSingle(4);
     LedsTurnOnSingle(6);
 
     LedsTurnOffSingle(4);
     LedsTurnOffSingle(8);
 
-    TEST_ASSERT_EQUAL_HEX16(0x0020, leds_virtuales);
+    TEST_ASSERT_EQUAL_HEX16(0x0020, virtual_leds);
+}
+
+/** @test Turn off all LEDs at once. */
+void test_turn_off_all_leds(void) {
+    for (int i = 0; i < 16; i++) {
+        LedsTurnOnSingle(i);
+    }
+    LedsTurnOffAll();
+
+    TEST_ASSERT_EQUAL_HEX16(0x0000, virtual_leds);
+}
+
+/** @test Check the status of a LED that is on. */
+void test_check_status_led_is_on(void) {
+    LedsTurnOnSingle(4);
+
+    TEST_ASSERT_TRUE(LedsIsTurnedOn(4));
+}
+
+/** @test Check the status of a LED that is off. */
+void test_check_status_led_is_off(void) {
+    LedsTurnOnSingle(4);
+    LedsTurnOffSingle(4);
+
+    TEST_ASSERT_FALSE(LedsIsTurnedOn(4));
 }
 
 /* === End of documentation ==================================================================== */

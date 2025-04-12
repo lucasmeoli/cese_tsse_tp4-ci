@@ -1,5 +1,5 @@
 /************************************************************************************************
-Copyright (c) 2025, Esteban Volentini <evolentini@herrera.unt.edu.ar>
+Copyright (c) 2025, Lucas Meoli <meolilucas@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -23,14 +23,15 @@ SPDX-License-Identifier: MIT
 #define LEDS_H
 
 /** @file leds.h
- ** @brief Declaraciones de la biblioteca para el control de LEDs
+ ** @brief Declaration of functions for the LED control library
  **/
 
 /* === Headers files inclusions ================================================================ */
 
 #include <stdint.h>
+#include <stdbool.h>
 
-/* === Cabecera C++ ============================================================================ */
+/* === C++ Header ============================================================================== */
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,27 +46,41 @@ extern "C" {
 /* === Public function declarations ============================================================ */
 
 /**
- * @brief Función para inicializar la biblioteca de leds
+ * @brief Function to initialize the LEDs library
  *
- * @note Esta funcion debe ser llamada antes de utilizar cualquier otra función de la biblioteca
+ * @note This function must be called before using any other function in the library
  *
- * @param direccion Puntero al puerto GPIO que controla los leds
+ * @param port Pointer to the GPIO port address that controls the LEDs
  */
-void LedsInit(uint16_t * direccion);
+void LedsInit(uint16_t * port);
 
 /**
- * @brief Funcion para prender un led individual
+ * @brief Function to turn on a single LED
  *
- * @param led Numero de led que se desea prender (1 a 16)
+ * @param led The LED number to be turned on
  */
 void LedsTurnOnSingle(uint8_t led);
 
 /**
- * @brief Funcion para apagar un led individual
+ * @brief Function to turn off a single LED
  *
- * @param led Numero de led que se desea apagar (1 a 16)
+ * @param led The LED number to be turned off
  */
 void LedsTurnOffSingle(uint8_t led);
+
+/**
+ * @brief Function to turn off ALL LEDs
+ */
+void LedsTurnOffAll();
+
+/**
+ * @brief Function to check if a LED is on
+ *
+ * @param led The LED number to check (must be within valid range)
+ *
+ * @return bool True if the LED is on
+ */
+bool LedsIsTurnedOn(uint8_t led);
 
 /* === End of documentation ==================================================================== */
 
