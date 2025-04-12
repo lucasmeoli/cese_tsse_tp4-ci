@@ -77,6 +77,7 @@ void test_prender_led_individual(void) {
 void test_apagar_led_individual(void) {
     LedsTurnOnSingle(4);
     LedsTurnOffSingle(4);
+
     TEST_ASSERT_EQUAL_HEX16(0x0000, leds_virtuales);
 }
 
